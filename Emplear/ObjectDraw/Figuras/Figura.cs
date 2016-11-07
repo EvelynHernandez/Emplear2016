@@ -15,19 +15,19 @@ namespace ObjectDraw.Figuras
 
     public bool Visible { get; set; }
 
-    private Shape _shape;
+    protected Shape Forma { get; set; }
 
     public Shape Mostrar()
     {
-      if (_shape == null)
+      if (Forma == null)
       {
         //  no se que shape voy a crear concretamente...pero se que siempre voy a tener que crear una!!
-        _shape = CrearShape();
+        Forma = CrearShape();
       }
 
       Visible = true;
 
-      return _shape;
+      return Forma;
     }
 
     protected virtual Shape CrearShape()
@@ -38,7 +38,7 @@ namespace ObjectDraw.Figuras
     public Shape Ocultar()
     {
       Visible = false;
-      return _shape;
+      return Forma;
     }
 
     public void Mover(double newX, double newY)

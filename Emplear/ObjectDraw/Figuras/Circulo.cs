@@ -8,9 +8,14 @@ using System.Windows.Shapes;
 
 namespace ObjectDraw.Figuras
 {
-  public class Circulo : Figura
+  public class Circulo : Figura, IRellenable
   {
     public double Radio { get; set; }
+
+    public void Rellenar(Brush color)
+    {
+      Forma.Fill = color;
+    }
 
     protected override Shape CrearShape()
     {

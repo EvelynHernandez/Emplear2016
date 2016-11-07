@@ -18,16 +18,22 @@ namespace ObjectDraw.Figuras
 
       if (rect != null)
       {
-        return $"RECT: ({rect.X}, {rect.Y}): {rect.Base} x {rect.Altura}";
+        return $"RECT: ({rect.X}, {rect.Y}) [{rect.Base} x {rect.Altura}]";
       }
 
       Circulo circ = value as Circulo;
 
       if (circ != null)
       {
-        return $"CIRC: ({circ.X}, {circ.Y}): Radio: {circ.Radio}";
+        return $"CIRC: ({circ.X}, {circ.Y}) Radio: {circ.Radio}";
       }
 
+      Linea linea = value as Linea;
+
+      if (linea != null)
+      {
+        return $"LINEA: ({linea.X}, {linea.Y}) Sz: {linea.Longitud} Ang: {linea.Direccion}";
+      }
       return null;
     }
 

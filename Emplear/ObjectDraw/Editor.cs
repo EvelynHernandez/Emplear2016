@@ -28,6 +28,8 @@ namespace ObjectDraw
 
     public ICommand Mover { get; set; }
 
+    public ICommand Rellenar { get; set; }
+
     public event PropertyChangedEventHandler PropertyChanged;
 
     static Editor()
@@ -62,7 +64,21 @@ namespace ObjectDraw
         FiguraActual.Mover(NewX, NewY);
         MostrarElementoActual(null);
       }, (o) => FiguraActual != null && FiguraActual.Visible);
+
+      Rellenar = new SimpleCommand(RellenarElementoActual, EstadoRellenoElementoActual);
   }
+
+    private void RellenarElementoActual(object obj)
+    {
+      IRellenable rellenar = FiguraActual as IRellenable;
+      
+      rellenar.Rellenar(Brushes.Chartreuse);
+    }
+
+    private bool EstadoRellenoElementoActual(object obj)
+    {
+      return FiguraActual != null && FiguraActual.Visible && FiguraActual is IRellenable;
+    }
 
     private bool EstadoElementoActual(object obj)
     {

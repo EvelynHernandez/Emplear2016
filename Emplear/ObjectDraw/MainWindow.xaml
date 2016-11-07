@@ -33,6 +33,7 @@
       <Label Content="Nuevo Y"></Label>
       <TextBox Margin="5" Padding="5" Text="{Binding NewY}"></TextBox>
       <Button Margin="5" Padding="5" Content="Mover" Command="{Binding Mover}"></Button>
+      <Button Margin="5" Padding="5" Content="Rellenar" Command="{Binding Rellenar}"></Button>
     </StackPanel>
     <Canvas Name="mainArea"></Canvas>
   </DockPanel>
