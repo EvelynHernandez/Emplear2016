@@ -8,45 +8,22 @@ using System.Windows.Shapes;
 
 namespace ObjectDraw.Figuras
 {
-  public class Rectangulo
+  public class Rectangulo : Figura
   {
-    public double X { get; set; }
-    public double Y { get; set; }
-
-    public bool Visible { get; set; }
-
     public float Base { get; set; }
     public float Altura { get; set; }
 
-    private Rectangle _rect;
-
-    public void Mover(double newX, double newY)
+    protected override Shape CrearShape()
     {
-      X = newX;
-      Y = newY;
-    }
+      Rectangle rect;
 
-    public Rectangle Mostrar()
-    {
-      if (_rect == null)
-      {
-        _rect = new Rectangle();
+      rect = new Rectangle();
 
-        _rect.StrokeThickness = 4;
-        _rect.Stroke = Brushes.Black;
-        _rect.Width = Base;
-        _rect.Height = Altura;
-      }
-
-      Visible = true;
-
-      return _rect;
-    }
-
-    public Rectangle Ocultar()
-    {
-      Visible = false;
-      return _rect;
+      rect.StrokeThickness = 4;
+      rect.Stroke = Brushes.Black;
+      rect.Width = Base;
+      rect.Height = Altura;
+      return rect;
     }
   }
 }

@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
 
 namespace ObjectDraw.Figuras
 {
@@ -18,6 +20,14 @@ namespace ObjectDraw.Figuras
       {
         return $"RECT: ({rect.X}, {rect.Y}): {rect.Base} x {rect.Altura}";
       }
+
+      Circulo circ = value as Circulo;
+
+      if (circ != null)
+      {
+        return $"CIRC: ({circ.X}, {circ.Y}): Radio: {circ.Radio}";
+      }
+
       return null;
     }
 

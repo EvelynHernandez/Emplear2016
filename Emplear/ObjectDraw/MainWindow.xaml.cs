@@ -35,6 +35,8 @@ namespace ObjectDraw
       //  agregamos figuras al editor
       edit.Objetos.Add(new Rectangulo() { X = 50, Y = 20, Base = 200, Altura = 30 });
       edit.Objetos.Add(new Rectangulo() { X = 200, Y = 300, Base = 200, Altura = 150 });
+      edit.Objetos.Add(new Circulo() { X = 300, Y = 85, Radio = 40 });
+      edit.Objetos.Add(new Circulo() { X = 500, Y = 240, Radio = 95 });
     }
   }
 }
