@@ -10,6 +10,9 @@ using System.Windows.Shapes;
 
 namespace ObjectDraw.Figuras
 {
+  /// <summary>
+  /// Permite convertir una Figura en general a una cadena de texto
+  /// </summary>
   public class FiguraConverter : IValueConverter
   {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,14 +9,45 @@ using System.Windows.Shapes;
 
 namespace ObjectDraw.Figuras
 {
-  public class Figura
+  public class Figura : INotifyPropertyChanged
   {
-    public double X { get; set; }
-    public double Y { get; set; }
+    private double _x, _y;
 
-    public bool Visible { get; set; }
+    public double X
+    {
+      get { return _x; }
+      set
+      {
+        _x = value;
+        OnPropertyChanged(nameof(X));
+      }
+    }
+
+    public double Y
+    {
+      get { return _y; }
+      set
+      {
+        _y = value;
+        OnPropertyChanged(nameof(Y));
+      }
+    }
+
+    private bool _visible;
+
+    public bool Visible
+    {
+      get { return _visible;}
+      set
+      {
+        _visible = value;
+        OnPropertyChanged(nameof(Visible));
+      }
+    }
 
     protected Shape Forma { get; set; }
+
+    public event PropertyChangedEventHandler PropertyChanged;
 
     public Shape Mostrar()
     {
@@ -45,6 +77,11 @@ namespace ObjectDraw.Figuras
     {
       X = newX;
       Y = newY;
+    }
+
+    protected void OnPropertyChanged(string prop)
+    {
+      PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
     }
   }
 }

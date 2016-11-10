@@ -5,10 +5,12 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+
 using System.Windows.Shapes;
 using ObjectDraw.Figuras;
 
@@ -44,7 +46,16 @@ namespace ObjectDraw
       if (_canvas != null)
         Console.WriteLine("Canvas encontrado con exito!");
 
-      Objetos = new ObservableCollection<Figura>();
+      Objetos = new ObservableCollection<Figura>()
+      {
+        //  agregamos figuras al editor
+        new Rectangulo() { X = 50, Y = 20, Base = 200, Altura = 30 },
+        new Rectangulo() { X = 200, Y = 300, Base = 200, Altura = 150 },
+        new Circulo() { X = 300, Y = 85, Radio = 40 },
+        new Circulo() { X = 500, Y = 240, Radio = 95 },
+        new Linea() { X = 50, Y = 20, Longitud = 200, Direccion = 30 }
+      };
+      FiguraActual = Objetos[0];
 
       Mostrar = new SimpleCommand(MostrarElementoActual, EstadoElementoActual);
 
@@ -66,7 +77,24 @@ namespace ObjectDraw
       }, (o) => FiguraActual != null && FiguraActual.Visible);
 
       Rellenar = new SimpleCommand(RellenarElementoActual, EstadoRellenoElementoActual);
-  }
+    }
+
+    public string Figurita
+    {
+      get
+      {
+        //ObservableCollection<Shape> resultado = new ObservableCollection<Shape>();
+
+        //resultado.Add(new Rectangle() {Stroke = Brushes.Blue, StrokeThickness = 3, Width = 40, Height = 40});
+        string resultado = "Enrique Thedy";
+
+        return resultado;
+      }
+      set
+      {
+        OnPropertyChanged(nameof(Figurita));
+      }
+    }
 
     private void RellenarElementoActual(object obj)
     {
