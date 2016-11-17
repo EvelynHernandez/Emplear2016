@@ -16,13 +16,12 @@
     <StackPanel DockPanel.Dock="Right" Background="CadetBlue" Name="toolPanel" Width="200">
       <ComboBox Margin="5" 
                 ItemsSource="{Binding Path=Objetos, Mode=TwoWay}" 
-                SelectedItem="{Binding Path=FiguraActual}">
+                SelectedItem="{Binding Path=RectanguloActual}">
         <ComboBox.ItemTemplate>
           <DataTemplate>
             <StackPanel Orientation="Horizontal" Height="40">
               <Label VerticalAlignment="Center" Content="Item: "></Label>
-              <TextBlock VerticalAlignment="Center" Margin="3" 
-                         Text="{Binding Converter={StaticResource FiguraConverter}}"></TextBlock>
+              <TextBlock VerticalAlignment="Center" Margin="3" Text="{Binding Converter={StaticResource FiguraConverter}}"></TextBlock>
             </StackPanel>
           </DataTemplate>
         </ComboBox.ItemTemplate>

@@ -19,8 +19,8 @@ namespace ObjectDraw
     public static Editor Instancia { get; private set; }
 
     private Canvas _canvas;
-    private Figura _figActual;
-    private ObservableCollection<Figura> _objetos;
+    private Rectangulo _rectActual;
+    private ObservableCollection<Rectangulo> _objetos;
 
     public ICommand Mostrar { get; set; }
 
@@ -42,44 +42,44 @@ namespace ObjectDraw
       if (_canvas != null)
         Console.WriteLine("Canvas encontrado con exito!");
 
-      Objetos = new ObservableCollection<Figura>();
+      Objetos = new ObservableCollection<Rectangulo>();
 
       Mostrar = new SimpleCommand(MostrarElementoActual, EstadoElementoActual);
 
       Ocultar = new SimpleCommand((o) =>
       {
-        //_canvas.Children.Remove(FiguraActual.Ocultar());
+        _canvas.Children.Remove(RectanguloActual.Ocultar());
       }, (o) =>
       {
-        if (FiguraActual == null)
+        if (RectanguloActual == null)
           return false;
-        return FiguraActual.Visible;
+        return RectanguloActual.Visible;
       });
 
       Mover = new SimpleCommand((o) =>
       {
-        //_canvas.Children.Remove(FiguraActual.Ocultar());
-        //1FiguraActual.Mover(NewX, NewY);
+        _canvas.Children.Remove(RectanguloActual.Ocultar());
+        RectanguloActual.Mover(NewX, NewY);
         MostrarElementoActual(null);
-      }, (o) => FiguraActual != null && FiguraActual.Visible);
+      }, (o) => RectanguloActual != null && RectanguloActual.Visible);
   }
 
     private bool EstadoElementoActual(object obj)
     {
-      if (FiguraActual == null)
+      if (RectanguloActual == null)
         return false;
-      return !FiguraActual.Visible;
+      return !RectanguloActual.Visible;
     }
 
     private void MostrarElementoActual(object obj)
     {
-      Shape item = FiguraActual.Mostrar();
+      Rectangle item = RectanguloActual.Mostrar();
       _canvas.Children.Add(item);
-      item.SetValue(Canvas.TopProperty, FiguraActual.Y);
-      item.SetValue(Canvas.LeftProperty, FiguraActual.X);
+      item.SetValue(Canvas.TopProperty, RectanguloActual.Y);
+      item.SetValue(Canvas.LeftProperty, RectanguloActual.X);
     }
 
-    public ObservableCollection<Figura> Objetos
+    public ObservableCollection<Rectangulo> Objetos
     {
       get { return _objetos; }
       set
@@ -89,13 +89,13 @@ namespace ObjectDraw
       }
     }
 
-    public Figura FiguraActual
+    public Rectangulo RectanguloActual
     {
-      get { return _figActual; }
+      get { return _rectActual; }
       set
       {
-        _figActual = value;
-        OnPropertyChanged(nameof(FiguraActual));
+        _rectActual = value;
+        OnPropertyChanged(nameof(RectanguloActual));
       }
     }
 
