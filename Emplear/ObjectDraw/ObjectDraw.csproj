@@ -63,7 +63,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Editor.cs" />
+    <Compile Include="Figuras\Circulo.cs" />
+    <Compile Include="Figuras\Figura.cs" />
     <Compile Include="Figuras\FiguraConverter.cs" />
+    <Compile Include="Figuras\FiguraSelector.cs" />
+    <Compile Include="Figuras\IRellenable.cs" />
+    <Compile Include="Figuras\Linea.cs" />
     <Compile Include="Figuras\Rectangulo.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

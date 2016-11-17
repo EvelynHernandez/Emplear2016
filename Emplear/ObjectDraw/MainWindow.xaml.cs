@@ -31,10 +31,7 @@ namespace ObjectDraw
       Editor edit = Editor.Instancia;
 
       toolPanel.DataContext = edit;
-
-      //  agregamos figuras al editor
-      edit.Objetos.Add(new Rectangulo() { X = 50, Y = 20, Base = 200, Altura = 30 });
-      edit.Objetos.Add(new Rectangulo() { X = 200, Y = 300, Base = 200, Altura = 150 });
+      this.DataContext = edit;
     }
   }
 }

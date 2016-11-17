@@ -5,10 +5,12 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+
 using System.Windows.Shapes;
 using ObjectDraw.Figuras;
 
@@ -19,14 +21,16 @@ namespace ObjectDraw
     public static Editor Instancia { get; private set; }
 
     private Canvas _canvas;
-    private Rectangulo _rectActual;
-    private ObservableCollection<Rectangulo> _objetos;
+    private Figura _figActual;
+    private ObservableCollection<Figura> _objetos;
 
     public ICommand Mostrar { get; set; }
 
     public ICommand Ocultar { get; set; }
 
     public ICommand Mover { get; set; }
+
+    public ICommand Rellenar { get; set; }
 
     public event PropertyChangedEventHandler PropertyChanged;
 
@@ -42,44 +46,84 @@ namespace ObjectDraw
       if (_canvas != null)
         Console.WriteLine("Canvas encontrado con exito!");
 
-      Objetos = new ObservableCollection<Rectangulo>();
+      Objetos = new ObservableCollection<Figura>()
+      {
+        //  agregamos figuras al editor
+        new Rectangulo() { X = 50, Y = 20, Base = 200, Altura = 30 },
+        new Rectangulo() { X = 200, Y = 300, Base = 200, Altura = 150 },
+        new Circulo() { X = 300, Y = 85, Radio = 40 },
+        new Circulo() { X = 500, Y = 240, Radio = 95 },
+        new Linea() { X = 50, Y = 20, Longitud = 200, Direccion = 30 }
+      };
+      FiguraActual = Objetos[0];
 
       Mostrar = new SimpleCommand(MostrarElementoActual, EstadoElementoActual);
 
       Ocultar = new SimpleCommand((o) =>
       {
-        _canvas.Children.Remove(RectanguloActual.Ocultar());
+        _canvas.Children.Remove(FiguraActual.Ocultar());
       }, (o) =>
       {
-        if (RectanguloActual == null)
+        if (FiguraActual == null)
           return false;
-        return RectanguloActual.Visible;
+        return FiguraActual.Visible;
       });
 
       Mover = new SimpleCommand((o) =>
       {
-        _canvas.Children.Remove(RectanguloActual.Ocultar());
-        RectanguloActual.Mover(NewX, NewY);
+        _canvas.Children.Remove(FiguraActual.Ocultar());
+        FiguraActual.Mover(NewX, NewY);
         MostrarElementoActual(null);
-      }, (o) => RectanguloActual != null && RectanguloActual.Visible);
-  }
+      }, (o) => FiguraActual != null && FiguraActual.Visible);
+
+      Rellenar = new SimpleCommand(RellenarElementoActual, EstadoRellenoElementoActual);
+    }
+
+    public string Figurita
+    {
+      get
+      {
+        //ObservableCollection<Shape> resultado = new ObservableCollection<Shape>();
+
+        //resultado.Add(new Rectangle() {Stroke = Brushes.Blue, StrokeThickness = 3, Width = 40, Height = 40});
+        string resultado = "Enrique Thedy";
+
+        return resultado;
+      }
+      set
+      {
+        OnPropertyChanged(nameof(Figurita));
+      }
+    }
+
+    private void RellenarElementoActual(object obj)
+    {
+      IRellenable rellenar = FiguraActual as IRellenable;
+      
+      rellenar.Rellenar(Brushes.Chartreuse);
+    }
+
+    private bool EstadoRellenoElementoActual(object obj)
+    {
+      return FiguraActual != null && FiguraActual.Visible && FiguraActual is IRellenable;
+    }
 
     private bool EstadoElementoActual(object obj)
     {
-      if (RectanguloActual == null)
+      if (FiguraActual == null)
         return false;
-      return !RectanguloActual.Visible;
+      return !FiguraActual.Visible;
     }
 
     private void MostrarElementoActual(object obj)
     {
-      Rectangle item = RectanguloActual.Mostrar();
+      UIElement item = FiguraActual.Mostrar();
       _canvas.Children.Add(item);
-      item.SetValue(Canvas.TopProperty, RectanguloActual.Y);
-      item.SetValue(Canvas.LeftProperty, RectanguloActual.X);
+      item.SetValue(Canvas.TopProperty, FiguraActual.Y);
+      item.SetValue(Canvas.LeftProperty, FiguraActual.X);
     }
 
-    public ObservableCollection<Rectangulo> Objetos
+    public ObservableCollection<Figura> Objetos
     {
       get { return _objetos; }
       set
@@ -89,13 +133,13 @@ namespace ObjectDraw
       }
     }
 
-    public Rectangulo RectanguloActual
+    public Figura FiguraActual
     {
-      get { return _rectActual; }
+      get { return _figActual; }
       set
       {
-        _rectActual = value;
-        OnPropertyChanged(nameof(RectanguloActual));
+        _figActual = value;
+        OnPropertyChanged(nameof(FiguraActual));
       }
     }
 
@@ -120,25 +164,6 @@ namespace ObjectDraw
         OnPropertyChanged(nameof(NewY));
       }
     }
-
-    /*
-       public List<Type> FigurasValidas { get; set; }
-
-
-       private Type _figuraElegida;
-       public Type FiguraElegida
-       {
-         get
-         {
-           return _figuraElegida;
-         }
-         set
-         {
-           _figuraElegida = value;
-           OnPropertyChanged(nameof(FiguraElegida));
-         }
-       }
-   */
 
     private void OnPropertyChanged(string prop)
     {
