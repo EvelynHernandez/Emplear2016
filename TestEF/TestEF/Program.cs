@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Data;
@@ -15,6 +17,12 @@ namespace TestEF
     {
       TestContext ctx = TestContext.DB;
 
+      AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+      {
+        Console.WriteLine(" >>>>>>> CUIDADO Excepcion");
+        ctx?.Dispose();
+      };
+
       if (ctx.Database.Exists())
         Console.WriteLine("La base esta...");
       else
@@ -22,17 +30,28 @@ namespace TestEF
 
       Perfil p = ctx.Perfiles.FirstOrDefault();
 
-      Usuario user = new Usuario()
-      {
-        Login = "root",
-        Perfil = p
-      };
+      Usuario user;
 
-      ctx.Usuarios.Add(user);
-      ctx.SaveChanges();
+      //user = new Usuario()
+      //{
+      //  Login = "root1",
+      //  Perfil = p
+      //};
 
-      Console.WriteLine($"ID Perfil: {p.IDPerfil} ; Descripcion:  {p.Descripcion}");
+      //ctx.Usuarios.Add(user);
+
+      //  user = ctx.Usuarios.FirstOrDefault();
+
+      //ctx.SaveChanges();
+
+      //  Console.WriteLine($"ID Perfil: {p.IDPerfil} ; Descripcion:  {p.Descripcion}");
+      //  Console.WriteLine($"{user.Login} {user.Perfil.Descripcion}");
+      Console.WriteLine($"{p.Descripcion}");
+      foreach (Usuario u in p.Usuarios)
+        Console.WriteLine($"{u.Login}");
       Console.ReadLine();
+
+      ctx.Dispose();
     }
   }
 }

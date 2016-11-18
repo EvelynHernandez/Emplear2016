@@ -15,7 +15,8 @@ create table Usuarios
 	IntentosInvalidos		int,
 	ID_Perfil				int					not null,
 	constraint PK_Usuarios primary key (Login),
-	constraint FK_Usuarios_Perfiles foreign key (ID_Perfil) references Perfiles (ID_Perfil)
+	constraint FK_Usuarios_Perfiles foreign key (ID_Perfil) 
+	  references Perfiles (ID_Perfil)
 )
 go
 
